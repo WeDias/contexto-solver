@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-from src.config import WORDS_EMBEDDINGS_PATH, WORDS_FILTERED_PATH, MAX_SCORE, WIN_SCORE, START_GUESS
+from src.config import WORDS_EMBEDDINGS_PATH, WORDS_FILTERED_PATH, BLACK_LIST_PATH, MAX_SCORE, WIN_SCORE, START_GUESS
 
 
 class Solver:
@@ -125,11 +125,13 @@ class Solver:
                 self.game_finished = True
         except NoSuchElementException:
             score = MAX_SCORE
+            with open(BLACK_LIST_PATH, 'a') as file:
+                file.write(f'{word}\n')
         finally:
             self.add_result(word, score)
     
     def solve(self):
-        sleep(self.sleep_time)
+        sleep(self.sleep_time * 5)
         self.submit_word(START_GUESS)
         while not self.game_finished:
             self.submit_word(self.guess_next())
