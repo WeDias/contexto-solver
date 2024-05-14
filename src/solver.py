@@ -22,14 +22,14 @@ class Solver:
         self.embeddings = np.load(WORDS_EMBEDDINGS_PATH)
         self.words = list(map(str.strip, open(WORDS_FILTERED_PATH).readlines()))
         
-    def get_distances(self, word: str):
+    def get_distances(self, word: str) -> np.ndarray:
         try:
             word_id = self.words.index(word)
         except ValueError:
             return None
         return cosine_distances([self.embeddings[word_id]], self.embeddings)[0]
 
-    def get_word_to_distances(self, guesses: list[tuple[str, int]]):
+    def get_word_to_distances(self, guesses: list[tuple[str, int]]) -> dict[str, np.ndarray]:
         word_to_distances = {}
         for word, _ in guesses:
             dists = self.get_distances(word)
@@ -37,11 +37,11 @@ class Solver:
                 word_to_distances[word] = dists
         return word_to_distances
 
-    def add_result(self, word, order):
+    def add_result(self, word, order) -> None:
         self.results.append((word, order))
         self.word_to_distances[word] = self.get_distances(word)
 
-    def get_score(self, guesses, word_to_distances, min_gap=0.1, num_samples=50):
+    def get_score(self, guesses, word_to_distances, min_gap=0.1, num_samples=50) -> np.ndarray:
         scores = np.zeros(len(self.words))
         for _ in range(0, num_samples):
             word_a, order_a = random.choice(guesses)
@@ -54,7 +54,7 @@ class Solver:
 
         return scores
 
-    def best_scores(self, guesses, word_to_distances, top: int):
+    def best_scores(self, guesses, word_to_distances, top: int) -> np.ndarray:
         best_guess_word, _ = sorted(guesses, key=lambda x: x[1])[0]
         best_guess_distances = word_to_distances[best_guess_word]
         top_distances = np.argsort(best_guess_distances)[:top]
@@ -62,14 +62,14 @@ class Solver:
         top_distances_mask[top_distances] = True
         return top_distances_mask
 
-    def already_guessed_mask(self, guesses):
+    def already_guessed_mask(self, guesses) -> np.ndarray:
         already_guessed_mask = np.zeros(len(self.words), dtype=bool)
         for word, _ in guesses:
             word_id = self.words.index(word)
             already_guessed_mask[word_id] = True
         return already_guessed_mask
 
-    def sample_score(self, min_gap=0.1, num_samples=50, guesses=None, word_to_distances=None):
+    def sample_score(self, min_gap=0.1, num_samples=50, guesses=None, word_to_distances=None) -> np.ndarray:
         if guesses is None:
             guesses = self.results
 
@@ -102,7 +102,7 @@ class Solver:
 
         return closest_ids
 
-    def guess_next(self, guesses=None, word_to_distances=None):
+    def guess_next(self, guesses=None, word_to_distances=None) -> str:
         closest = self.sample_score(min_gap=0.3, num_samples=500, guesses=guesses, word_to_distances=word_to_distances)
         return self.words[closest[0]]
     
@@ -120,16 +120,18 @@ class Solver:
             response = self.web_driver.find_element(By.CLASS_NAME, 'message')
             word_score_input = response.find_element(By.CLASS_NAME, 'row')
 
-            score = float(word_score_input.text.split('\n')[1])
+            score = int(word_score_input.text.split('\n')[1])
             if score == WIN_SCORE:
                 self.game_finished = True
+
         except NoSuchElementException:
             score = MAX_SCORE
             with open(BLACK_LIST_PATH, 'a') as file:
                 file.write(f'{word}\n')
+
         finally:
             self.add_result(word, score)
-    
+
     def solve(self):
         sleep(self.sleep_time * 5)
         self.submit_word(START_GUESS)
