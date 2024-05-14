@@ -133,7 +133,7 @@ class Solver:
             self.add_result(word, score)
 
     def solve(self):
-        sleep(self.sleep_time * 5)
+        sleep(self.sleep_time)
         self.submit_word(START_GUESS)
         while not self.game_finished:
             self.submit_word(self.guess_next())

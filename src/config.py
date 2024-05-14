@@ -3,7 +3,7 @@ import os
 
 CONTEXTO_URL = 'https://contexto.me/'
 
-START_GUESS = 'family'
+START_GUESS = 'computer'
 WORDS_FILE = 'words.txt'
 BLACK_LIST_FILE = 'blacklist.txt'
 WORDS_EMBEDDINGS_FILE = 'embeddings.npy'
