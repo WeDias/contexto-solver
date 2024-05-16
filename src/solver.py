@@ -5,9 +5,8 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_distances
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 
-from src.config import WORDS_EMBEDDINGS_PATH, WORDS_FILTERED_PATH, BLACK_LIST_PATH, MAX_SCORE, WIN_SCORE, START_GUESS
+from src.config import WORDS_EMBEDDINGS_PATH, WORDS_FILTERED_PATH, WIN_SCORE
 
 
 class Solver:
@@ -41,7 +40,7 @@ class Solver:
         self.results.append((word, order))
         self.word_to_distances[word] = self.get_distances(word)
 
-    def get_score(self, guesses, word_to_distances, min_gap=0.1, num_samples=50) -> np.ndarray:
+    def get_score(self, guesses, word_to_distances, min_gap=0.1, num_samples=500) -> np.ndarray:
         scores = np.zeros(len(self.words))
         for _ in range(0, num_samples):
             word_a, order_a = random.choice(guesses)
@@ -69,7 +68,7 @@ class Solver:
             already_guessed_mask[word_id] = True
         return already_guessed_mask
 
-    def sample_score(self, min_gap=0.1, num_samples=50, guesses=None, word_to_distances=None) -> np.ndarray:
+    def sample_score(self, min_gap=0.1, num_samples=500, guesses=None, word_to_distances=None) -> np.ndarray:
         if guesses is None:
             guesses = self.results
 
@@ -102,7 +101,7 @@ class Solver:
 
         return closest_ids
 
-    def guess_next(self, guesses=None, word_to_distances=None) -> str:
+    def next_guess(self, guesses=None, word_to_distances=None) -> str:
         closest = self.sample_score(min_gap=0.3, num_samples=500, guesses=guesses, word_to_distances=word_to_distances)
         return self.words[closest[0]]
     
@@ -123,17 +122,16 @@ class Solver:
             score = int(word_score_input.text.split('\n')[1])
             if score == WIN_SCORE:
                 self.game_finished = True
-
-        except NoSuchElementException:
-            score = MAX_SCORE
-            with open(BLACK_LIST_PATH, 'a') as file:
-                file.write(f'{word}\n')
-
-        finally:
             self.add_result(word, score)
+        except Exception:
+            pass
+    
+    def random_guess(self) -> str:
+        return random.choice(self.words)
 
-    def solve(self):
+    def solve(self) -> None:
         sleep(self.sleep_time)
-        self.submit_word(START_GUESS)
+        self.submit_word(self.random_guess())
+
         while not self.game_finished:
-            self.submit_word(self.guess_next())
+            self.submit_word(self.next_guess())

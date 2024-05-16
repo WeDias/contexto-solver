@@ -5,6 +5,7 @@ from src.config import CONTEXTO_URL
 
 
 if __name__ == '__main__':
+
     options = webdriver.ChromeOptions()
     options.page_load_strategy = 'eager'
     options.add_experimental_option("detach", True)

@@ -1,23 +1,29 @@
 import os
 
 
+WIN_SCORE = 1
 CONTEXTO_URL = 'https://contexto.me/'
+CONTEXTO_API_URL = 'https://api.contexto.me/machado/'
 
-START_GUESS = 'animal'
-WORDS_FILE = 'words.txt'
-BLACK_LIST_FILE = 'blacklist.txt'
-WORDS_EMBEDDINGS_FILE = 'embeddings.npy'
-WORDS_FILTERED_FILE = 'words-filtered.txt'
 DATA_FOLDER_NAME = 'data'
-
 CODE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(CODE_DIR)
 DATA_DIR = os.path.join(ROOT_DIR, DATA_FOLDER_NAME)
 
-WORDS_FILE_PATH = os.path.join(DATA_DIR, WORDS_FILE)
-BLACK_LIST_PATH = os.path.join(DATA_DIR, BLACK_LIST_FILE)
-WORDS_EMBEDDINGS_PATH = os.path.join(DATA_DIR, WORDS_EMBEDDINGS_FILE)
-WORDS_FILTERED_PATH = os.path.join(DATA_DIR, WORDS_FILTERED_FILE)
+ALL_EN_WORDS_FILE = 'all-en-words.txt'
+ALL_EN_WORDS_PATH = os.path.join(DATA_DIR, ALL_EN_WORDS_FILE)
 
-WIN_SCORE = 1
-MAX_SCORE = 100_000
+COMMON_WORDS_FILE = 'common-words.txt'
+COMMON_WORDS_PATH = os.path.join(DATA_DIR, COMMON_WORDS_FILE)
+
+WORDS_EMBEDDINGS_FILE = 'embeddings.npy'
+WORDS_EMBEDDINGS_PATH = os.path.join(DATA_DIR, WORDS_EMBEDDINGS_FILE)
+
+INVALID_WORDS_FILE = 'invalid-words.txt'
+INVALID_WORDS_PATH = os.path.join(DATA_DIR, INVALID_WORDS_FILE)
+
+VALID_WORDS_FILE = 'valid-words.txt'
+VALID_WORDS_PATH = os.path.join(DATA_DIR, VALID_WORDS_FILE)
+
+WORDS_FILTERED_FILE = 'words-filtered.txt'
+WORDS_FILTERED_PATH = os.path.join(DATA_DIR, WORDS_FILTERED_FILE)
