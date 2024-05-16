@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_distances
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from src.config import WORDS_EMBEDDINGS_PATH, WORDS_FILTERED_PATH, WIN_SCORE
+from src.config import WORDS_EMBEDDINGS_PATH, FILTERED_WORDS_PATH, WIN_SCORE
 
 
 class Solver:
@@ -19,7 +19,7 @@ class Solver:
         self.results = []
         self.word_to_distances = {}
         self.embeddings = np.load(WORDS_EMBEDDINGS_PATH)
-        self.words = list(map(str.strip, open(WORDS_FILTERED_PATH).readlines()))
+        self.words = list(map(str.strip, open(FILTERED_WORDS_PATH).readlines()))
         
     def get_distances(self, word: str) -> np.ndarray:
         try:

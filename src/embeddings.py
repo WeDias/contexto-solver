@@ -3,7 +3,7 @@ import numpy as np
 import gensim.downloader as downloader
 
 from src.words_generator import process_word, valid_words
-from src.config import COMMON_WORDS_PATH, WORDS_EMBEDDINGS_PATH, WORDS_FILTERED_PATH
+from src.config import COMMON_WORDS_PATH, WORDS_EMBEDDINGS_PATH, FILTERED_WORDS_PATH
 
 
 if __name__ == '__main__':
@@ -21,5 +21,5 @@ if __name__ == '__main__':
 
     np.save(WORDS_EMBEDDINGS_PATH, words_embeddings)
     
-    with open(WORDS_FILTERED_PATH, 'w') as file:
+    with open(FILTERED_WORDS_PATH, 'w') as file:
         file.write('\n'.join(filtered_words))
