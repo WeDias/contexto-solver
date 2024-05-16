@@ -6,16 +6,17 @@ from sklearn.metrics.pairwise import cosine_distances
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-from src.config import WORDS_EMBEDDINGS_PATH, FILTERED_WORDS_PATH, WIN_SCORE
+from src.config import WORDS_EMBEDDINGS_PATH, FILTERED_WORDS_PATH, WIN_SCORE, RANDOM_GUESSES
 
 
 class Solver:
 
-    def __init__(self, web_driver: webdriver.Chrome, sleep_time: float) -> None:
+    def __init__(self, web_driver: webdriver.Chrome, sleep_time: float=2, random_guesses: int=10) -> None:
         self.game_finished: bool = False
         self.word_input = None
         self.web_driver = web_driver
         self.sleep_time = sleep_time
+        self.random_guesses = random_guesses
         self.results = []
         self.word_to_distances = {}
         self.embeddings = np.load(WORDS_EMBEDDINGS_PATH)
@@ -125,13 +126,12 @@ class Solver:
             self.add_result(word, score)
         except Exception:
             pass
-    
-    def random_guess(self) -> str:
-        return random.choice(self.words)
 
     def solve(self) -> None:
         sleep(self.sleep_time)
-        self.submit_word(self.random_guess())
+        
+        for random_guess in random.sample(RANDOM_GUESSES, self.random_guesses):
+            self.submit_word(random_guess)
 
         while not self.game_finished:
             self.submit_word(self.next_guess())

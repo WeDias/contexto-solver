@@ -5,6 +5,12 @@ WIN_SCORE = 1
 CONTEXTO_URL = 'https://contexto.me/'
 CONTEXTO_API_URL = 'https://api.contexto.me/machado/'
 
+RANDOM_GUESSES = [
+    'food', 'occupation', 'animal', 'event', 'clothes', 
+    'transportation', 'city', 'nature', 'home', 'work', 
+    'technology', 'vacation', 'person', 'thing', 'emotion',
+]
+
 DATA_FOLDER_NAME = 'data'
 CODE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(CODE_DIR)
