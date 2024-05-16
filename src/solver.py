@@ -55,7 +55,7 @@ class Solver:
         return scores
 
     def best_scores(self, guesses, word_to_distances, top: int) -> np.ndarray:
-        best_guess_word, _ = sorted(guesses, key=lambda x: x[1])[0]
+        best_guess_word, _ = min(guesses, key=lambda x: x[1])
         best_guess_distances = word_to_distances[best_guess_word]
         top_distances = np.argsort(best_guess_distances)[:top]
         top_distances_mask = np.zeros(len(self.words), dtype=bool)
