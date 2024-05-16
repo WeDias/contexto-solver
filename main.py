@@ -13,5 +13,5 @@ if __name__ == '__main__':
     web_driver = webdriver.Chrome(options=options)
     web_driver.get(CONTEXTO_URL)
 
-    solver = Solver(web_driver=web_driver, sleep_time=2, random_guesses=10)
+    solver = Solver(web_driver=web_driver, sleep_time=2, random_guesses=5)
     solver.solve()

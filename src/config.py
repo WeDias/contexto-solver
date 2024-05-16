@@ -6,9 +6,9 @@ CONTEXTO_URL = 'https://contexto.me/'
 CONTEXTO_API_URL = 'https://api.contexto.me/machado/'
 
 RANDOM_GUESSES = [
-    'food', 'occupation', 'animal', 'event', 'clothes', 
-    'transportation', 'city', 'nature', 'home', 'work', 
-    'technology', 'vacation', 'person', 'thing', 'emotion',
+    'dog', 'violin', 'pencil', 'football', 'drink',
+    'sheep', 'mind', 'king', 'boat', 'planet',
+    'ocean', 'room', 'lawn', 'giraffe', 'bedroom',
 ]
 
 DATA_FOLDER_NAME = 'data'
