@@ -1,5 +1,5 @@
 # contexto-solver
-Application to solve the contexto.me game written in Python with Vector Search
+Application to solve the contexto.me game written in Python with word embeddings
 
 ## Dependencies
 
