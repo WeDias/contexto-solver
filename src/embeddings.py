@@ -13,8 +13,8 @@ if __name__ == '__main__':
     with open(COMMON_WORDS_PATH) as file:
         words = [word.strip().lower() for word in file]
         
-    with ThreadPoolExecutor(max_workers=256) as executor:
-        executor.map(process_word, words)
+    with ThreadPoolExecutor(max_workers=128) as executor:
+        tuple(executor.map(process_word, words))
 
     filtered_words = [word for word in valid_words if word in model]
     words_embeddings = np.stack([model[word] for word in filtered_words if word in model])

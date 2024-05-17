@@ -28,8 +28,8 @@ def process_word(word: str) -> None:
 
 if __name__ == '__main__':
 
-    with ThreadPoolExecutor(max_workers=256) as executor:
-        executor.map(process_word, all_en_words)
+    with ThreadPoolExecutor(max_workers=128) as executor:
+        tuple(executor.map(process_word, all_en_words))
 
     with open(VALID_WORDS_PATH, 'w') as file:
         file.write('\n'.join(sorted(valid_words)))
